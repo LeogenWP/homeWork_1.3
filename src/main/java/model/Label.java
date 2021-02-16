@@ -5,4 +5,22 @@ public class Label {
     private int id;
     private String name;
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Label setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Label(String name) {
+        this.id = labelId;
+        this.name = name;
+        labelId++;
+    }
 }
