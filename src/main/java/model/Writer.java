@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Writer {
+public class Writer implements Serializable {
     private static int writerId = 1;
     private int id;
     private String firstName;

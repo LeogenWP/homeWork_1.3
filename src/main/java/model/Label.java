@@ -1,6 +1,8 @@
 package model;
 
-public class Label {
+import java.io.Serializable;
+
+public class Label implements Serializable {
     private static int labelId = 1;
     private int id;
     private String name;
