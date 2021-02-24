@@ -47,4 +47,9 @@ public class Writer implements Serializable {
         this.lastName = lastName;
         writerId++;
     }
+
+    public Writer() {
+        this.id = writerId;
+        writerId++;
+    }
 }

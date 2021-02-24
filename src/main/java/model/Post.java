@@ -10,6 +10,7 @@ public class Post implements Serializable {
     private String created;
     private String updated;
     private List<Label> labels;
+    private PostStatus postStatus;
 
     public int getId() {
         return id;
@@ -55,5 +56,14 @@ public class Post implements Serializable {
         this.id = postId;
         this.content = content;
         postId++;
+    }
+
+    public PostStatus getPostStatus() {
+        return postStatus;
+    }
+
+    public Post setPostStatus(PostStatus postStatus) {
+        this.postStatus = postStatus;
+        return this;
     }
 }
