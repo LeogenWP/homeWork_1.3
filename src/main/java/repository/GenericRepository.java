@@ -1,5 +1,6 @@
 package repository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface GenericRepository<T,ID> {
@@ -7,7 +8,10 @@ public interface GenericRepository<T,ID> {
     //void deleteById(ID id);
     //<S extends T> S update (S entity);
 
-    void findAll();
-    void save(T t);
+    List<T> getAll();
+    T save(T t);
+    T getById(ID id);
+    T updateById(ID id);
+    void deleteById(ID id);
 
 }
