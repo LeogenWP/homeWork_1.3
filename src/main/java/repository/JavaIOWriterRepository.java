@@ -22,9 +22,10 @@ public class JavaIOWriterRepository implements WriterRepository<Writer,Integer>{
     }
 
     @Override
-    public Writer update(Writer writer) {
+    public Writer updateById(Integer integer) {
         return null;
     }
+
 
     @Override
     public void deleteById(Integer integer) {

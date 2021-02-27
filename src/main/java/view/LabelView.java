@@ -20,8 +20,8 @@ public class LabelView {
         String command;
         while (true) {
             System.out.println("You are in a Label menu");
-            System.out.println("Type one of  next commands: save,update,getall,delete,getbyid");
-            System.out.println("For example type \"create\"  if you want to create a new Label");
+            System.out.println("Type one of  next commands: save,update,getall,delete,get");
+            System.out.println("For example type \"save\"  if you want to create a new Label");
             System.out.println("Type \"return\"  if you want to return");
             try {
                 command = reader.readLine();
@@ -47,9 +47,17 @@ public class LabelView {
                     System.out.println("Please, write the ID of the label which should be deleted");
                     labelController.deleteById(Integer.parseInt(reader.readLine()));
                     System.out.println("Label has been deleted");
-                } else if (command.equals("getbyid")) {
+                } else if (command.equals("get")) {
                     System.out.println("Please, write the ID of the label which should be found");
                     labelController.getById(Integer.parseInt(reader.readLine()));
+                } else if (command.equals("update")) {
+                    System.out.println("Please, write the ID of the label which should be updated");
+                    int labelId = Integer.parseInt(reader.readLine());
+                    labelController.getById(labelId);
+                    System.out.println("Please write a new name for the label");
+                    String labelName = reader.readLine();
+                    labelController.updateById(labelId,labelName);
+                    System.out.println("Label has been updated");
                 }
 
             } catch (IOException e) {

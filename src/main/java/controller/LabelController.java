@@ -14,12 +14,7 @@ public class LabelController {
 
     public void save (String labelName) {
         Label label = labelRepository.save(new Label(labelName));
-        System.out.println("Label has been created. Label name is: " + labelName);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            writer.write(label.getId() + ";"+ label.getName() +"\n");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        labelRepository.writeToFile(label);
     }
     public void getAll(){
         for (Label label : labelRepository.getAll()) {
