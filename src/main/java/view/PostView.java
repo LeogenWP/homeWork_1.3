@@ -37,20 +37,15 @@ public class PostView {
                 } else if (command.equals("getall")) {
                          postController.getAll();
                 } else if (command.equals("delete")) {
-                    System.out.println("Please, write the ID of the label which should be deleted");
-                    // postController.deleteById(Integer.parseInt(reader.readLine()));
+                    System.out.println("Please, write the ID of the Post which should be deleted");
+                     postController.deleteById(Integer.parseInt(reader.readLine()));
                     System.out.println("Label has been deleted");
                 } else if (command.equals("get")) {
-                    System.out.println("Please, write the ID of the label which should be found");
-                    // postController.getById(Integer.parseInt(reader.readLine()));
+                    System.out.println("Please, write the ID of the Post which should be found");
+                         postController.getById(Integer.parseInt(reader.readLine()));
                 } else if (command.equals("update")) {
-                    System.out.println("Please, write the ID of the label which should be updated");
-                    int labelId = Integer.parseInt(reader.readLine());
-                    // postController.getById(labelId);
-                    System.out.println("Please write a new name for the label");
-                    String labelName = reader.readLine();
-                    //  postController.updateById(labelId,labelName);
-                    System.out.println("Label has been updated");
+                    System.out.println("Please, write the ID of the Post which should be updated");
+                     postController.updateById(reader);
                 }
 
             } catch (IOException e) {

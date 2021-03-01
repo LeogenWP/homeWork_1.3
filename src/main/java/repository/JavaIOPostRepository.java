@@ -7,7 +7,6 @@ import model.PostStatus;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,8 +19,6 @@ import java.util.stream.Stream;
 public class JavaIOPostRepository implements PostRepository<Post,Integer> {
     private static final String POSTSTXT = "C:/JavaProjects/homeWork_1.3/src/main/resources/posts.txt";
     private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Date now = new Date();
-    String strDate = sdfDate.format(now);
 
     @Override
     public List<Post> getAll() {
@@ -49,18 +46,31 @@ public class JavaIOPostRepository implements PostRepository<Post,Integer> {
     }
 
     @Override
-    public Post getById(Integer integer) {
+    public Post getById(Integer id) {
+
+        for (Post post : getAll()) {
+            if (post.getId() == id) {
+                return post;
+            }
+        }
         return null;
     }
 
     @Override
-    public Post updateById(Integer integer) {
-        return null;
+    public Post updateById(Integer id) {
+        return getById(id);
     }
 
     @Override
-    public void deleteById(Integer integer) {
-
+    public void deleteById(Integer id) {
+        List<Post> posts = getAll();
+        for (int i = 0; i < posts.size(); i ++) {
+            if(posts.get(i).getId() == id) {
+                posts.get(i).setPostStatus(PostStatus.DELETED);
+                break;
+            }
+        }
+        writeToFile(posts);
     }
 
     public  void writeToFile(Post post) {
@@ -72,7 +82,20 @@ public class JavaIOPostRepository implements PostRepository<Post,Integer> {
             e.printStackTrace();
         }
     }
-    private String getLabelsID(Post post) {
+
+    public void writeToFile(List<Post> posts) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(POSTSTXT, false))) {
+            for (Post post : posts) {
+                writer.write(post.getId() + ";" + post.getContent() +
+                        ";" + post.getCreated() + ";" + post.getUpdated() + ";" +
+                        getLabelsID(post) + ";" + post.getPostStatus() + "\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public String getLabelsID(Post post) {
         String labelsId = "";
         for(Label label : post.getLabels()){
             labelsId +=label.getId() + ",";
