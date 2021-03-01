@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Writer implements Serializable {
-    private static int writerId = 1;
     private int id;
     private String firstName;
     private String lastName;
@@ -42,14 +41,8 @@ public class Writer implements Serializable {
     }
 
     public Writer(String firstName, String lastName) {
-        this.id = writerId;
         this.firstName = firstName;
         this.lastName = lastName;
-        writerId++;
     }
 
-    public Writer() {
-        this.id = writerId;
-        writerId++;
-    }
 }

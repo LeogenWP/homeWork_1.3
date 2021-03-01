@@ -67,6 +67,14 @@ public class JavaIOLabelRepository  implements LabelRepository<Label,Integer> {
         writeToFile(labels,true);
     }
 
+    public  void writeToFile(Label label) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(LABELSTXT, true))) {
+            writer.write(label.getId() + ";"+ label.getName() +"\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //labels.txt content example
     //1;Chapter1
     //2;Chapter2
@@ -81,14 +89,6 @@ public class JavaIOLabelRepository  implements LabelRepository<Label,Integer> {
             for (Label label : labels) {
                 writer.write(label.getId() + ";"+ label.getName() +"\n");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public  void writeToFile(Label label) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(LABELSTXT, true))) {
-            writer.write(label.getId() + ";"+ label.getName() +"\n");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,7 +114,4 @@ public class JavaIOLabelRepository  implements LabelRepository<Label,Integer> {
         }
         return id;
     }
-
-
-
 }

@@ -1,4 +1,4 @@
 package repository;
 
-public interface PostRepository extends GenericRepository{
+public interface PostRepository<Post,Integer> extends GenericRepository<Post,Integer> {
 }

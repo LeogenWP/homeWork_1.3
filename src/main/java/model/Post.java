@@ -1,10 +1,10 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Post implements Serializable {
-    private static int postId = 1;
+public class Post {
     private int id;
     private String content;
     private String created;
@@ -14,6 +14,11 @@ public class Post implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public Post setId(int id) {
+        this.id = id;
+        return this;
     }
 
     public String getContent() {
@@ -52,10 +57,18 @@ public class Post implements Serializable {
         return this;
     }
 
-    public Post(String content) {
-        this.id = postId;
+    public Post(String id, String content, String created, String updated, List<Label> labels, PostStatus postStatus) {
+        this.id = Integer.parseInt(id);
         this.content = content;
-        postId++;
+        this.created = created;
+        this.updated = updated;
+        this.labels = labels;
+        this.postStatus = postStatus;
+    }
+
+    public Post(String content) {
+        this.content = content;
+        this.labels = new ArrayList<>();
     }
 
     public PostStatus getPostStatus() {
@@ -65,5 +78,17 @@ public class Post implements Serializable {
     public Post setPostStatus(PostStatus postStatus) {
         this.postStatus = postStatus;
         return this;
+    }
+
+    public void addLabel(Label label){
+        this.labels.add(label);
+    }
+    public void removeLabel(Integer id){
+        for (int i = 0; i < this.labels.size(); i++){
+            if(id == this.labels.get(i).getId()){
+                this.labels.remove(i);
+                break;
+            }
+        }
     }
 }
