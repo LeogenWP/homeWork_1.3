@@ -53,7 +53,6 @@ public class PostController {
     public void updateById(BufferedReader reader) {
         JavaIOLabelRepository labelRepository = new JavaIOLabelRepository();
         System.out.println("Next options are available for Post: \n");
-        System.out.println("First ");
         System.out.println("type content for updating content");
         System.out.println("type addlabels for adding labels");
         System.out.println("type removelabels for deleting labels");

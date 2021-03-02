@@ -38,6 +38,7 @@ public class Application {
                     postView.getString(reader);
                 }else if(string.toUpperCase().equals("WRITER")){
                     System.out.println("writer has been typed");
+                    writerView.getString(reader);
                 }else {
                     System.out.println("please type writer/post/label");
                 }

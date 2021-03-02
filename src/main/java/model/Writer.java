@@ -1,9 +1,9 @@
 package model;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Writer implements Serializable {
+public class Writer  {
     private int id;
     private String firstName;
     private String lastName;
@@ -11,6 +11,11 @@ public class Writer implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public Writer setId(int id) {
+        this.id = id;
+        return this;
     }
 
     public String getFirstName() {
@@ -43,6 +48,26 @@ public class Writer implements Serializable {
     public Writer(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        posts = new ArrayList<>();
+    }
+
+    public Writer(String id,String firstName, String lastName, List<Post> posts) {
+        this.id = Integer.parseInt(id);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.posts = posts;
+    }
+
+    public void addPost(Post post){
+        this.posts.add(post);
+    }
+    public void removePost(Integer id) {
+        for (int i = 0; i < this.posts.size(); i++) {
+            if (id == this.posts.get(i).getId()) {
+                this.posts.remove(i);
+                break;
+            }
+        }
     }
 
 }
