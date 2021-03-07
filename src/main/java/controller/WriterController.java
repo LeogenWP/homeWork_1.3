@@ -3,21 +3,22 @@ package controller;
 import model.Writer;
 import repository.JavaIOPostRepository;
 import repository.JavaIOWriterRepository;
+import repository.WriterRepository;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
 import java.util.List;
 
 public class WriterController {
-    JavaIOWriterRepository writerRepository;
+    WriterRepository<Writer,Integer> writerRepository;
 
     public WriterController() {
         writerRepository = new JavaIOWriterRepository();
     }
 
     public void save (String firstName, String lastName) {
-        Writer writer = writerRepository.save(new Writer(firstName, lastName));
-        writerRepository.writeToFile(writer);
+        writerRepository.save(new Writer(firstName, lastName));
     }
 
     public void getAll() {
@@ -83,7 +84,5 @@ public class WriterController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }

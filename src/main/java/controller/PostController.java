@@ -5,6 +5,7 @@ import model.Post;
 import model.PostStatus;
 import repository.JavaIOLabelRepository;
 import repository.JavaIOPostRepository;
+import repository.PostRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 public class PostController {
-    private JavaIOPostRepository postRepository;
+    private PostRepository<Post,Integer> postRepository;
     private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public PostController(){

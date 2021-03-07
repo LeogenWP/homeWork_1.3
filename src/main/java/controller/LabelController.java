@@ -2,6 +2,8 @@ package controller;
 
 import model.Label;
 import repository.JavaIOLabelRepository;
+import repository.LabelRepository;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -9,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class LabelController {
-    private JavaIOLabelRepository labelRepository;
+    private LabelRepository<Label,Integer> labelRepository;
     private String fileName = "C:/JavaProjects/homeWork_1.3/src/main/resources/labels.txt";
 
     public void save (String labelName) {

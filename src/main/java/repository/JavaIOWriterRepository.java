@@ -23,6 +23,7 @@ public class JavaIOWriterRepository implements WriterRepository<Writer,Integer>{
     @Override
     public Writer save(Writer writer) {
         writer.setId(calculateId());
+        writeToFile(writer);
         return writer;
     }
 
