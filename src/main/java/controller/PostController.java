@@ -21,8 +21,7 @@ public class PostController {
     }
 
     public void save (String postContent) {
-        Post post = postRepository.save(new Post(postContent));
-        postRepository.writeToFile(post);
+         postRepository.save(new Post(postContent));
     }
 
     public void getAll() {
@@ -91,14 +90,7 @@ public class PostController {
                 } else if (string.equals("save")) {
                     Date now = new Date();
                     post.setUpdated(sdfDate.format(now));
-                    List<Post> posts =  postRepository.getAll();
-                    for(int i = 0; i < posts.size(); i ++) {
-                        if(post.getId() == posts.get(i).getId()) {
-                            posts.set(i, post);
-                            break;
-                        }
-                    }
-                    postRepository.writeToFile(posts);
+                    postRepository.update(post);
                 }
             }
         } catch (IOException e) {

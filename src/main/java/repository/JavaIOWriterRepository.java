@@ -17,16 +17,7 @@ public class JavaIOWriterRepository implements WriterRepository<Writer,Integer>{
 
     @Override
     public List<Writer> getAll() {
-        List <Writer> writers = new ArrayList();
-        File file = new File(WRITERSTXT);
-        try (Stream<String> linesStream = Files.lines(file.toPath())) {
-            linesStream.forEach(line -> {
-                writers.add(new Writer(split(line, ";").get(0),split(line, ";").get(1),split(line, ";").get(2),getPosts(split(line, ";").get(3))));
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return writers;
+        return getAllWriters();
     }
 
     @Override
@@ -37,7 +28,7 @@ public class JavaIOWriterRepository implements WriterRepository<Writer,Integer>{
 
     @Override
     public Writer getById(Integer id) {
-        for (Writer writer : getAll()) {
+        for (Writer writer : getAllWriters()) {
             if (writer.getId() == id) {
                 return writer;
             }
@@ -46,14 +37,24 @@ public class JavaIOWriterRepository implements WriterRepository<Writer,Integer>{
     }
 
     @Override
-    public Writer updateById(Integer id) {
-        return getById(id);
+    public Writer update(Writer writer) {
+        List<Writer> writers = getAllWriters();
+        for(int i = 0; i < writers.size(); i ++) {
+            if(writer.getId() == writers.get(i).getId()) {
+                writers.set(i, writer);
+                break;
+            }
+        }
+        writeToFile(writers);
+        return writer;
     }
+
+
 
 
     @Override
     public void deleteById(Integer id) {
-        List<Writer> writers = getAll();
+        List<Writer> writers = getAllWriters();
         for (int i = 0; i < writers.size(); i ++) {
             if(writers.get(i).getId() == id) {
                 writers.remove(i);
@@ -137,5 +138,18 @@ public class JavaIOWriterRepository implements WriterRepository<Writer,Integer>{
         return Stream.of(str.split(regex))
                 .map (elem -> new String(elem))
                 .collect(Collectors.toList());
+    }
+
+    private List<Writer> getAllWriters() {
+        List <Writer> writers = new ArrayList();
+        File file = new File(WRITERSTXT);
+        try (Stream<String> linesStream = Files.lines(file.toPath())) {
+            linesStream.forEach(line -> {
+                writers.add(new Writer(split(line, ";").get(0),split(line, ";").get(1),split(line, ";").get(2),getPosts(split(line, ";").get(3))));
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return writers;
     }
 }

@@ -77,14 +77,7 @@ public class WriterController {
                     System.out.println("write post id that you want to add");
                    writer.addPost(postRepository.getById(Integer.parseInt(reader.readLine())));
                 } else if (string.equals("save")) {
-                    List<Writer> writers =  writerRepository.getAll();
-                    for(int i = 0; i < writers.size(); i ++) {
-                        if(writer.getId() == writers.get(i).getId()) {
-                            writers.set(i, writer);
-                            break;
-                        }
-                    }
-                    writerRepository.writeToFile(writers);
+                    writerRepository.update(writer);
                 }
             }
         } catch (IOException e) {

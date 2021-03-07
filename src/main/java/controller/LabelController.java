@@ -13,8 +13,7 @@ public class LabelController {
     private String fileName = "C:/JavaProjects/homeWork_1.3/src/main/resources/labels.txt";
 
     public void save (String labelName) {
-        Label label = labelRepository.save(new Label(labelName));
-        labelRepository.writeToFile(label);
+        labelRepository.save(new Label(labelName));
     }
     public void getAll(){
         for (Label label : labelRepository.getAll()) {
@@ -27,26 +26,19 @@ public class LabelController {
     }
 
     public void getById(Integer id) {
+
        try {
-           System.out.println("Label id: " + labelRepository.getById(id).getId() + " Label name: " + labelRepository.getById(id).getName());
+           Label label = labelRepository.getById(id);
+           System.out.println("Label id: " + label.getId() + " Label name: " + label.getName());
        } catch (NullPointerException e) {
            System.out.println("Label not found");
        }
     }
 
     public void updateById(Integer id, String labelName) {
-        try {
             Label label = labelRepository.getById(id);
             label.setName(labelName);
-            labelRepository.deleteById(id);
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-                writer.write(label.getId() + ";"+ label.getName() +"\n");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            labelRepository.update(label);
     }
 
     public LabelController() {
