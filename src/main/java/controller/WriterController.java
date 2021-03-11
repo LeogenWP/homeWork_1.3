@@ -11,6 +11,13 @@ import java.util.List;
 
 public class WriterController {
     private final WriterRepository writerRepository;
+    private final String updateText = "Next options are available for Writer: \n"
+            + "type firsname for updating firs name\n"
+            + "type lastname for updating last name\n"
+            + "type addpost for adding post\n"
+            + "type removepost for deleting post\n"
+            + "type return for returning\n"
+            + "type save for saving changes";
 
     public WriterController() {
         writerRepository = new JavaIOWriterRepository();
@@ -48,13 +55,7 @@ public class WriterController {
 
     public Writer updateById(BufferedReader reader) {
         JavaIOPostRepository postRepository = new JavaIOPostRepository();
-        System.out.println("Next options are available for Writer: \n");
-        System.out.println("type firsname for updating firs name");
-        System.out.println("type lastname for updating last name");
-        System.out.println("type addpost for adding post");
-        System.out.println("type removepost for deleting post");
-        System.out.println("type return for returning");
-        System.out.println("type save for saving changes");
+        System.out.println(updateText);
         String string;
         String postId;
 

@@ -14,12 +14,14 @@ public class Application {
         PostView  postView = new PostView();
         WriterView writerView = new WriterView();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String greet = "Hello, it is main menu \n"
+                + "Available options: writer,post,label\n"
+                + "If you want to finish program type: exit";
 
         while(!exit){
             try {
-                System.out.println("Hello, it is main menu");
-                System.out.println("Available options: writer,post,label");
-                System.out.println("If you want to finish program type: exit");
+                System.out.println(greet);
+
                 String string = reader.readLine();
                 if(string.equals("exit")){
                     exit = true;
