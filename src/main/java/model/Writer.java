@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Writer  {
-    private int id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private List<Post> posts;
@@ -51,8 +51,8 @@ public class Writer  {
         posts = new ArrayList<>();
     }
 
-    public Writer(String id,String firstName, String lastName, List<Post> posts) {
-        this.id = Integer.parseInt(id);
+    public Writer(Integer id,String firstName, String lastName, List<Post> posts) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.posts = posts;

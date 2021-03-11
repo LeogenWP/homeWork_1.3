@@ -34,7 +34,7 @@ public class JavaIOLabelRepository  implements LabelRepository {
         try(Stream<String> linesStream = Files.lines(file.toPath())) {
             linesStream.forEach( line -> {
                 if (line.matches(id + ";(.*)")) {
-                   list.add(new Label( split(line,";").get(0),split(line,";").get(1))) ;
+                   list.add(new Label( Integer.parseInt(split(line, ";").get(0)),split(line,";").get(1))) ;
                 }
             } );
         } catch ( Exception e) {
@@ -74,7 +74,7 @@ public class JavaIOLabelRepository  implements LabelRepository {
         writeToFile(labels,true);
     }
 
-    public  void writeToFile(Label label) {
+    private  void writeToFile(Label label) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(LABELSTXT, true))) {
             writer.write(label.getId() + ";"+ label.getName() +"\n");
         } catch (Exception e) {
@@ -101,25 +101,19 @@ public class JavaIOLabelRepository  implements LabelRepository {
         }
     }
 
-    private int calculateId() {
-        int id = 1;
+    private Integer calculateId() {
+        Integer id = 0;
         File file = new File(LABELSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
             List<Integer> list = new ArrayList<>();
             linesStream.forEach(line -> {
                 list.add(Integer.parseInt(split(line, ";").get(0)));
             });
-            Stream<Integer> myStream = list.stream();
-            Optional<Integer> maxVal = myStream.max(Integer::compare);
-            if(maxVal.isPresent()){
-                id = maxVal.get() + 1;
-            }else{
-                id = 1;
-            }
+             id = list.stream().reduce(0, (left, right) -> left < right ? right : left);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return id;
+        return ++id;
     }
 
     private List<Label> getAllLabels(){
@@ -127,7 +121,7 @@ public class JavaIOLabelRepository  implements LabelRepository {
         File file = new File(LABELSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
             linesStream.forEach(line -> {
-                labels.add(new Label(split(line,";").get(0),split(line,";").get(1)));
+                labels.add(new Label(Integer.parseInt(split(line, ";").get(0)),split(line,";").get(1)));
             });
         } catch (Exception e) {
             e.printStackTrace();

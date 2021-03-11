@@ -1,7 +1,7 @@
 package model;
 
 public class Label  {
-    private int id;
+    private Integer id;
     private String name;
 
     public int getId() {
@@ -32,9 +32,9 @@ public class Label  {
         this.name = name;
     }
 
-    public Label(String id, String name) {
+    public Label(Integer id, String name) {
         this.name = name;
-        this.id = Integer.parseInt(id);
+        this.id = id;
     }
 }
 

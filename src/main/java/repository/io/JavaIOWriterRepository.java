@@ -69,7 +69,15 @@ public class JavaIOWriterRepository implements WriterRepository {
 
     }
 
-    public  void writeToFile(Writer writer) {
+    public String getPostsID(Writer writer) {
+        String labelsId = "";
+        for(Post post : writer.getPosts()){
+            labelsId += post.getId() + ",";
+        }
+        return labelsId;
+    }
+
+    private  void writeToFile(Writer writer) {
         try (BufferedWriter bufWriter = new BufferedWriter(new FileWriter(WRITERSTXT, true))) {
             bufWriter.write(writer.getId() + ";" + writer.getFirstName() +
                     ";" + writer.getLastName() + ";" + getPostsID(writer) + "\n");
@@ -78,7 +86,7 @@ public class JavaIOWriterRepository implements WriterRepository {
         }
     }
 
-    public void writeToFile(List<Writer> writers) {
+    private void writeToFile(List<Writer> writers) {
         try (BufferedWriter bufWriter = new BufferedWriter(new FileWriter(WRITERSTXT, false))) {
             for (Writer writer : writers) {
                 bufWriter.write(writer.getId() + ";" + writer.getFirstName() +
@@ -88,13 +96,6 @@ public class JavaIOWriterRepository implements WriterRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    public String getPostsID(Writer writer) {
-        String labelsId = "";
-        for(Post post : writer.getPosts()){
-            labelsId += post.getId() + ",";
-        }
-        return labelsId;
     }
 
     private List<Post> getPosts(String string) {
@@ -116,25 +117,19 @@ public class JavaIOWriterRepository implements WriterRepository {
         }
     }
 
-    private int calculateId() {
-        int id = 1;
+    private Integer calculateId() {
+        Integer id = 0;
         File file = new File(WRITERSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
             List<Integer> list = new ArrayList<>();
             linesStream.forEach(line -> {
                 list.add(Integer.parseInt(split(line,";").get(0)));
             });
-            Stream<Integer> myStream = list.stream();
-            Optional<Integer> maxVal = myStream.max(Integer::compare);
-            if(maxVal.isPresent()){
-                id = maxVal.get() + 1;
-            }else{
-                id = 1;
-            }
+            id = list.stream().reduce(0, (left, right) -> left < right ? right : left);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return id;
+        return ++id;
     }
 
     //id;content;created;updated;1,2,3,4,5;postStatus
@@ -149,7 +144,7 @@ public class JavaIOWriterRepository implements WriterRepository {
         File file = new File(WRITERSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
             linesStream.forEach(line -> {
-                writers.add(new Writer(split(line, ";").get(0),split(line, ";").get(1),split(line, ";").get(2),getPosts(split(line, ";").get(3))));
+                writers.add(new Writer(Integer.parseInt(split(line, ";").get(0)) ,split(line, ";").get(1),split(line, ";").get(2),getPosts(split(line, ";").get(3))));
             });
         } catch (Exception e) {
             e.printStackTrace();

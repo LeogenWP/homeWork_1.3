@@ -53,7 +53,7 @@ public class JavaIOPostRepository implements PostRepository {
         File file = new File(POSTSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
             linesStream.forEach(line -> {
-                posts.add(new Post(split(line, ";").get(0), split(line, ";").get(1), split(line, ";").get(2), split(line, ";").get(3), getLabels(split(line, ";").get(4)), PostStatus.valueOf(split(line, ";").get(5))));
+                posts.add(new Post(Integer.parseInt(split(line, ";").get(0)), split(line, ";").get(1), split(line, ";").get(2), split(line, ";").get(3), getLabels(split(line, ";").get(4)), PostStatus.valueOf(split(line, ";").get(5))));
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +81,15 @@ public class JavaIOPostRepository implements PostRepository {
             writeToFile(posts);
         }
 
-        public void writeToFile (Post post){
+    public String getLabelsID (Post post){
+        String labelsId = "";
+        for (Label label : post.getLabels()) {
+            labelsId += label.getId() + ",";
+        }
+        return labelsId;
+    }
+
+        private void writeToFile (Post post){
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(POSTSTXT, true))) {
                 writer.write(post.getId() + ";" + post.getContent() +
                         ";" + post.getCreated() + ";" + post.getUpdated() + ";" +
@@ -91,7 +99,7 @@ public class JavaIOPostRepository implements PostRepository {
             }
         }
 
-        public void writeToFile (List<Post> posts) {
+        private void writeToFile (List<Post> posts) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(POSTSTXT, false))) {
                 for (Post post : posts) {
                     writer.write(post.getId() + ";" + post.getContent() +
@@ -102,13 +110,6 @@ public class JavaIOPostRepository implements PostRepository {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        public String getLabelsID (Post post){
-            String labelsId = "";
-            for (Label label : post.getLabels()) {
-                labelsId += label.getId() + ",";
-            }
-            return labelsId;
         }
 
         private List<Label> getLabels (String string){
@@ -130,25 +131,19 @@ public class JavaIOPostRepository implements PostRepository {
             }
         }
 
-        private int calculateId() {
-            int id = 1;
+        private Integer calculateId() {
+            Integer id = 0;
             File file = new File(POSTSTXT);
             try (Stream<String> linesStream = Files.lines(file.toPath())) {
                 List<Integer> list = new ArrayList<>();
                 linesStream.forEach(line -> {
                     list.add(Integer.parseInt(split(line, ";").get(0)));
                 });
-                Stream<Integer> myStream = list.stream();
-                Optional<Integer> maxVal = myStream.max(Integer::compare);
-                if (maxVal.isPresent()) {
-                    id = maxVal.get() + 1;
-                } else {
-                    id = 1;
-                }
+                id = list.stream().reduce(0, (left, right) -> left < right ? right : left);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return id;
+            return ++id;
         }
 
         //id;content;created;updated;1,2,3,4,5;postStatus
@@ -163,7 +158,7 @@ public class JavaIOPostRepository implements PostRepository {
         File file = new File(POSTSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
             linesStream.forEach(line -> {
-                posts.add(new Post(split(line, ";").get(0), split(line, ";").get(1), split(line, ";").get(2), split(line, ";").get(3), getLabels(split(line, ";").get(4)), PostStatus.valueOf(split(line, ";").get(5))));
+                posts.add(new Post(Integer.parseInt(split(line, ";").get(0)), split(line, ";").get(1), split(line, ";").get(2), split(line, ";").get(3), getLabels(split(line, ";").get(4)), PostStatus.valueOf(split(line, ";").get(5))));
             });
         } catch (Exception e) {
             e.printStackTrace();

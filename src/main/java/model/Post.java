@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
-    private int id;
+    private Integer id;
     private String content;
     private String created;
     private String updated;
@@ -57,8 +57,8 @@ public class Post {
         return this;
     }
 
-    public Post(String id, String content, String created, String updated, List<Label> labels, PostStatus postStatus) {
-        this.id = Integer.parseInt(id);
+    public Post(Integer id, String content, String created, String updated, List<Label> labels, PostStatus postStatus) {
+        this.id = id;
         this.content = content;
         this.created = created;
         this.updated = updated;
