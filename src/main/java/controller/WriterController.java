@@ -1,32 +1,32 @@
 package controller;
 
 import model.Writer;
-import repository.JavaIOPostRepository;
-import repository.JavaIOWriterRepository;
+import repository.io.JavaIOPostRepository;
+import repository.io.JavaIOWriterRepository;
 import repository.WriterRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-
 import java.util.List;
 
 public class WriterController {
-    WriterRepository<Writer,Integer> writerRepository;
+    private final WriterRepository writerRepository;
 
     public WriterController() {
         writerRepository = new JavaIOWriterRepository();
     }
 
-    public void save (String firstName, String lastName) {
-        writerRepository.save(new Writer(firstName, lastName));
+    public Writer save (String firstName, String lastName) {
+        return writerRepository.save(new Writer(firstName, lastName));
     }
 
-    public void getAll() {
+    public List<Writer> getAll() {
         for (Writer writer : writerRepository.getAll()) {
             System.out.println(writer.getId() + ";" + writer.getFirstName() +
                     ";" + writer.getLastName() + ";" +
                     writerRepository.getPostsID(writer));
         }
+        return writerRepository.getAll();
     }
 
     public void deleteById( Integer id) {
@@ -34,7 +34,7 @@ public class WriterController {
 
     }
 
-    public void getById(Integer id) {
+    public Writer getById(Integer id) {
         try {
             Writer writer = writerRepository.getById(id);
             System.out.println(writer.getId() + ";" + writer.getFirstName() +
@@ -43,10 +43,10 @@ public class WriterController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return writerRepository.getById(id);
     }
 
-    public void updateById(BufferedReader reader) {
+    public Writer updateById(BufferedReader reader) {
         JavaIOPostRepository postRepository = new JavaIOPostRepository();
         System.out.println("Next options are available for Writer: \n");
         System.out.println("type firsname for updating firs name");
@@ -64,7 +64,7 @@ public class WriterController {
             while (true) {
                 string = reader.readLine();
                 if (string.equals("return")) {
-                    return;
+                    return writer;
                 } else if (string.equals("firsname")) {
                     System.out.println("Type new firsname");
                     writer.setFirstName(reader.readLine());
@@ -78,11 +78,12 @@ public class WriterController {
                     System.out.println("write post id that you want to add");
                    writer.addPost(postRepository.getById(Integer.parseInt(reader.readLine())));
                 } else if (string.equals("save")) {
-                    writerRepository.update(writer);
+                    return writerRepository.update(writer);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

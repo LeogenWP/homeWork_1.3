@@ -1,4 +1,4 @@
-package repository;
+package repository.io;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -9,9 +9,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import model.Label;
+import repository.LabelRepository;
 
-public class JavaIOLabelRepository  implements LabelRepository<Label,Integer> {
-    private static final String LABELSTXT = "C:/JavaProjects/homeWork_1.3/src/main/resources/labels.txt";
+public class JavaIOLabelRepository  implements LabelRepository {
+    private final String LABELSTXT = "C:/JavaProjects/homeWork_1.3/src/main/resources/labels.txt";
 
     @Override
     public List<Label> getAll() {

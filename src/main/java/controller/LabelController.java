@@ -1,33 +1,29 @@
 package controller;
 
 import model.Label;
-import repository.JavaIOLabelRepository;
+import repository.io.JavaIOLabelRepository;
 import repository.LabelRepository;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 public class LabelController {
-    private LabelRepository<Label,Integer> labelRepository;
-    private String fileName = "C:/JavaProjects/homeWork_1.3/src/main/resources/labels.txt";
+    private final LabelRepository labelRepository;
 
-    public void save (String labelName) {
-        labelRepository.save(new Label(labelName));
+    public Label save (String labelName) {
+        return labelRepository.save(new Label(labelName));
     }
-    public void getAll(){
+    public List<Label> getAll(){
         for (Label label : labelRepository.getAll()) {
             System.out.println("Label id: " + label.getId() + " Label name: " + label.getName());
         }
+        return labelRepository.getAll();
     }
 
     public void deleteById(Integer id) {
         labelRepository.deleteById(id);
     }
 
-    public void getById(Integer id) {
+    public Label getById(Integer id) {
 
        try {
            Label label = labelRepository.getById(id);
@@ -35,12 +31,13 @@ public class LabelController {
        } catch (NullPointerException e) {
            System.out.println("Label not found");
        }
+       return labelRepository.getById(id);
     }
 
-    public void updateById(Integer id, String labelName) {
+    public Label updateById(Integer id, String labelName) {
             Label label = labelRepository.getById(id);
             label.setName(labelName);
-            labelRepository.update(label);
+            return labelRepository.update(label);
     }
 
     public LabelController() {

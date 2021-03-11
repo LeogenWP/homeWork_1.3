@@ -1,10 +1,9 @@
 package controller;
 
-import model.Label;
 import model.Post;
 import model.PostStatus;
-import repository.JavaIOLabelRepository;
-import repository.JavaIOPostRepository;
+import repository.io.JavaIOLabelRepository;
+import repository.io.JavaIOPostRepository;
 import repository.PostRepository;
 
 import java.io.BufferedReader;
@@ -14,23 +13,24 @@ import java.util.Date;
 import java.util.List;
 
 public class PostController {
-    private PostRepository<Post,Integer> postRepository;
-    private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final PostRepository postRepository;
+    private final SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public PostController(){
         postRepository = new JavaIOPostRepository();
     }
 
-    public void save (String postContent) {
-         postRepository.save(new Post(postContent));
+    public Post save (String postContent) {
+        return postRepository.save(new Post(postContent));
     }
 
-    public void getAll() {
+    public List<Post> getAll() {
         for (Post post : postRepository.getAll()) {
             System.out.println(post.getId() + ";" + post.getContent() +
                     ";" + post.getCreated() + ";" + post.getUpdated() + ";" +
                     postRepository.getLabelsID(post) + ";" + post.getPostStatus() );
         }
+        return postRepository.getAll();
     }
 
     public void deleteById( Integer id) {
@@ -38,7 +38,7 @@ public class PostController {
 
     }
 
-    public void getById(Integer id) {
+    public Post getById(Integer id) {
         try {
             Post post = postRepository.getById(id);
             System.out.println(post.getId() + ";" + post.getContent() +
@@ -47,10 +47,10 @@ public class PostController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return  postRepository.getById(id);
     }
 
-    public void updateById(BufferedReader reader) {
+    public Post updateById(BufferedReader reader) {
         JavaIOLabelRepository labelRepository = new JavaIOLabelRepository();
         System.out.println("Next options are available for Post: \n");
         System.out.println("type content for updating content");
@@ -62,13 +62,14 @@ public class PostController {
         String string;
         String postId;
 
+
         try {
             postId = reader.readLine();
             Post post = postRepository.getById(Integer.parseInt(postId));
             while (true) {
                 string = reader.readLine();
                 if (string.equals("return")) {
-                    return;
+                    return post;
                 } else if (string.equals("content")) {
                     System.out.println("Type new content");
                     post.setContent(reader.readLine());
@@ -91,14 +92,13 @@ public class PostController {
                 } else if (string.equals("save")) {
                     Date now = new Date();
                     post.setUpdated(sdfDate.format(now));
-                    postRepository.update(post);
+                    return  postRepository.update(post);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        return null;
     }
 
 }

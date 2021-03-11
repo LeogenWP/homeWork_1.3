@@ -9,14 +9,14 @@ import java.sql.SQLOutput;
 import java.util.Map;
 
 public class LabelView {
-    LabelController labelController;
+    private final LabelController labelController;
 
     public LabelView() {
         labelController = new LabelController();
     }
 
 
-    public void getString(BufferedReader reader, String LABELS) {
+    public void getString(BufferedReader reader) {
         String command;
         while (true) {
             System.out.println("You are in a Label menu");

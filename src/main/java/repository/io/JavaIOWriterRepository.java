@@ -1,10 +1,13 @@
-package repository;
+package repository.io;
 
 import model.Post;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import model.Writer;
+import repository.WriterRepository;
+import repository.io.JavaIOPostRepository;
+
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +15,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JavaIOWriterRepository implements WriterRepository<Writer,Integer>{
-    private static final String WRITERSTXT = "C:/JavaProjects/homeWork_1.3/src/main/resources/writers.txt";
+public class JavaIOWriterRepository implements WriterRepository {
+    private final String WRITERSTXT = "C:/JavaProjects/homeWork_1.3/src/main/resources/writers.txt";
 
     @Override
     public List<Writer> getAll() {
@@ -99,7 +102,7 @@ public class JavaIOWriterRepository implements WriterRepository<Writer,Integer>{
         if(string.isEmpty()){
             return writerPosts;
         } else {
-            JavaIOPostRepository  postRepository = new JavaIOPostRepository();
+            JavaIOPostRepository postRepository = new JavaIOPostRepository();
             List<Post> allPosts = postRepository.getAll();
             List<String> postLabelsID = split(string, ",");
             for (int i = 0; i < postLabelsID.size(); i++) {

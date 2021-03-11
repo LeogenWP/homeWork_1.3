@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class PostView {
-    private PostController postController;
+    private final PostController postController;
 
     public PostView(){
         postController = new PostController();

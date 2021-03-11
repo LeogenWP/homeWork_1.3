@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class WriterView {
 
-    private WriterController writerController;
+    private final WriterController writerController;
 
     public WriterView() {
         writerController = new WriterController();

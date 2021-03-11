@@ -1,8 +1,10 @@
-package repository;
+package repository.io;
 
 import model.Label;
 import model.Post;
 import model.PostStatus;
+import repository.PostRepository;
+import repository.io.JavaIOLabelRepository;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,9 +16,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JavaIOPostRepository implements PostRepository<Post,Integer> {
-    private static final String POSTSTXT = "C:/JavaProjects/homeWork_1.3/src/main/resources/posts.txt";
-    private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+public class JavaIOPostRepository implements PostRepository {
+    private final String POSTSTXT = "C:/JavaProjects/homeWork_1.3/src/main/resources/posts.txt";
+    private final SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public List<Post> getAll() {
