@@ -32,19 +32,12 @@ public class JavaIOLabelRepository  implements LabelRepository {
        List<Label> list = new ArrayList<>();
         StringBuffer inputBuffer = new StringBuffer();
         try(Stream<String> linesStream = Files.lines(file.toPath())) {
-            linesStream.forEach( line -> {
-                if (line.matches(id + ";(.*)")) {
-                   list.add(makeLabel(line)) ;
-                }
-            } );
+            Label  label = linesStream.map(s -> makeLabel(s)).filter( lab -> lab.getId() == id).findAny().orElse(null);
+            list.add(label);
         } catch ( Exception e) {
             e.printStackTrace();
         }
-        if (list.isEmpty()) {
-            return null;
-        } else {
-            return list.get(0);
-        }
+        return list.get(0);
     }
 
     @Override
