@@ -34,7 +34,7 @@ public class JavaIOLabelRepository  implements LabelRepository {
         try(Stream<String> linesStream = Files.lines(file.toPath())) {
             linesStream.forEach( line -> {
                 if (line.matches(id + ";(.*)")) {
-                   list.add(new Label( Integer.parseInt(split(line, ";").get(0)),split(line,";").get(1))) ;
+                   list.add(makeLabel(line)) ;
                 }
             } );
         } catch ( Exception e) {
@@ -120,12 +120,16 @@ public class JavaIOLabelRepository  implements LabelRepository {
         List<Label> labels = new ArrayList();
         File file = new File(LABELSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
-            linesStream.forEach(line -> {
-                labels.add(new Label(Integer.parseInt(split(line, ";").get(0)),split(line,";").get(1)));
-            });
+            labels = linesStream.map(s -> makeLabel(s)).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return labels;
     }
+
+    private  Label makeLabel(String s) {
+        Label label = new Label(Integer.parseInt(split(s,";").get(0) ),split(s,";").get(1));
+        return label;
+    }
+
 }

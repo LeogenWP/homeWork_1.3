@@ -52,9 +52,7 @@ public class JavaIOPostRepository implements PostRepository {
         List<Post> posts = new ArrayList();
         File file = new File(POSTSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
-            linesStream.forEach(line -> {
-                posts.add(new Post(Integer.parseInt(split(line, ";").get(0)), split(line, ";").get(1), split(line, ";").get(2), split(line, ";").get(3), getLabels(split(line, ";").get(4)), PostStatus.valueOf(split(line, ";").get(5))));
-            });
+            posts = linesStream.map(s -> makePost(s)).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -157,14 +155,22 @@ public class JavaIOPostRepository implements PostRepository {
         List<Post> posts = new ArrayList();
         File file = new File(POSTSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
-            linesStream.forEach(line -> {
-                posts.add(new Post(Integer.parseInt(split(line, ";").get(0)), split(line, ";").get(1), split(line, ";").get(2), split(line, ";").get(3), getLabels(split(line, ";").get(4)), PostStatus.valueOf(split(line, ";").get(5))));
-            });
+            posts = linesStream.map(s -> makePost(s)).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return posts;
     }
 
+    private Post makePost(String line) {
+        Post post = new Post(Integer.parseInt(split(line, ";").get(0))
+                , split(line, ";").get(1)
+                , split(line, ";").get(2)
+                , split(line, ";").get(3)
+                , getLabels(split(line, ";").get(4))
+                , PostStatus.valueOf(split(line, ";").get(5)));
+        return post;
     }
+
+}
 

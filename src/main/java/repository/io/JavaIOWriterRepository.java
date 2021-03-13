@@ -143,12 +143,18 @@ public class JavaIOWriterRepository implements WriterRepository {
         List <Writer> writers = new ArrayList();
         File file = new File(WRITERSTXT);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
-            linesStream.forEach(line -> {
-                writers.add(new Writer(Integer.parseInt(split(line, ";").get(0)) ,split(line, ";").get(1),split(line, ";").get(2),getPosts(split(line, ";").get(3))));
-            });
+            writers = linesStream.map(s -> makeWriter(s)).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return writers;
+    }
+
+    private Writer makeWriter(String line) {
+        Writer writer = new Writer(Integer.parseInt(split(line, ";").get(0))
+                ,split(line, ";").get(1)
+                ,split(line, ";").get(2)
+                ,getPosts(split(line, ";").get(3)));
+        return writer;
     }
 }
